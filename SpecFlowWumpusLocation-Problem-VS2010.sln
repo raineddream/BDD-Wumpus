@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{D5F4207F-8484-4786-8B26-885AD65F7442}") = "WumpusLocation.Tests", "WumpusLocation.Tests\WumpusLocation.Tests-VS2010.csproj", "{B656DAD0-5349-442C-BD6B-B8FC568BEA14}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A056FDB1-26D5-4164-BE02-550711759656} = {A056FDB1-26D5-4164-BE02-550711759656}
+	EndProjectSection
+EndProject
+Project("{D5F4207F-8484-4786-8B26-885AD65F7442}") = "WumpusLocation", "WumpusLocation\WumpusLocation-VS2010.csproj", "{A056FDB1-26D5-4164-BE02-550711759656}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B656DAD0-5349-442C-BD6B-B8FC568BEA14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B656DAD0-5349-442C-BD6B-B8FC568BEA14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A056FDB1-26D5-4164-BE02-550711759656}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A056FDB1-26D5-4164-BE02-550711759656}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

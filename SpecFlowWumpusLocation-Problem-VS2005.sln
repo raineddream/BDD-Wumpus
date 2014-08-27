@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{407925F9-6403-434F-AA7C-5060568993B1}") = "WumpusLocation.Tests", "WumpusLocation.Tests\WumpusLocation.Tests-VS2005.csproj", "{1638EF2B-9428-4E5E-B1C1-EBCC66C6CDB6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{355EB57B-C06C-413D-8F29-D2BAAE300D58} = {355EB57B-C06C-413D-8F29-D2BAAE300D58}
+	EndProjectSection
+EndProject
+Project("{407925F9-6403-434F-AA7C-5060568993B1}") = "WumpusLocation", "WumpusLocation\WumpusLocation-VS2005.csproj", "{355EB57B-C06C-413D-8F29-D2BAAE300D58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1638EF2B-9428-4E5E-B1C1-EBCC66C6CDB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1638EF2B-9428-4E5E-B1C1-EBCC66C6CDB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{355EB57B-C06C-413D-8F29-D2BAAE300D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355EB57B-C06C-413D-8F29-D2BAAE300D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
