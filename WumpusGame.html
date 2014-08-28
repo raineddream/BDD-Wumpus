@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+	<head>
+		<title>The Wumpus Game</title>
+		<style>
+			section { 
+				border: 1px dotted #785;
+				border-radius: 15px;
+				background: #f5f5f5;
+				font-family: "Courier New", Courier, monospace;
+				font-size: 12px;
+				margin-left: auto;
+				margin-right: auto;
+				padding: 20px;
+				width: 80%;
+				
+				-moz-border-radius: 15px;
+			}
+			
+			h3 {
+				font-style: italic;
+				margin-top: 20px;
+			}
+			
+			.story-start {
+				margin-top: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<section>
+			<h1>Domain: The Wumpus Game</h1>
+			<p>For practice, we'll work with Wumpus, a computer game invented by Gregory Yob in the 1970s.</p>
+			<p>Notice we don't describe the user interface because our focus is on the behavior of the system.</p>
+			<p>A portion of the map <br/><img src="wumpus-map.png" alt="Wumpus Map"></p>
+			<h2 class="story-start">Wumpus</h2>
+			<p>You're an explorer in a set of caves, trying to kill the deadly wumpus before it kills you. There are 20 rooms, and each connects to 3 others as corners of a dodecahedron.</p>
+			<h3>The Wumpus</h3>
+			<p>The wumpus usually sleeps, but wakes up if you enter his room or shoot an arrow. When he wakes, he is equally likely to move to one of the three adjacent rooms or stay in the one he's in. If he's still in the same room as you after his move, he eats you (and you lose).</p>
+			<h3>Hazards</h3>
+			<p>There are two other hazards:
+				<ul>
+					<li>Bottomless pit: Two rooms have this. If you enter a room with this, you lose.</li>
+					<li>Bats: Two rooms have this. If you enter a room with bats, they carry you off to a random room.</li>
+				</ul>
+				You will receive warnings (whichever ones apply) when you're in a room adjacent to a hazard:
+				<ul>
+					<li>"I smell a wumpus"</li>
+					<li>"Bats nearby"</li>
+					<li>"I feel a draft" (from a bottomless pit)</li>
+				</ul>
+			</p>
+			<h3>Your Abilities</h3>
+			<p>
+				You have two abilities:
+				<ol>
+					<li>Move: Move to an adjacent room</li>
+					<li>Shoot: Shoot a "crooked arrow" that can go between rooms</li>
+				</ol>
+			</p>
+			<p>An arrow can travel 1 to 5 rooms (chosen by you). You specify which rooms you want the arrow to go through and in what order. If you specify a room that can't be reached next, the computer sends the arrow to an adjacent room at random. You start with 5 arrows. If you use up all your arrows or if you shoot yourself, you lose. If an arrow hits the wumpus, you win.</p>
+		</section>
+	</body>
+</html>
