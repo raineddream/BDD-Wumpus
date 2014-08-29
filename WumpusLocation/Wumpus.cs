@@ -36,7 +36,6 @@ namespace Wumpus
         };
 
         private int arrows;
-        private int playerLocation;
 
         private Fate fate;
 
@@ -75,7 +74,7 @@ namespace Wumpus
             while (true)
             {
                 arrows = STARTING_ARROWS;
-                playerLocation = locationOf[player];
+                _world.PutPlayerIn(locationOf[player]);
                 fate = Fate.Unknown;
 
                 while (fate == Fate.Unknown)
@@ -151,7 +150,7 @@ namespace Wumpus
             {
                 for (int edge = 0; edge < 3; edge++)
                 {
-                    if (_world.Rooms[locationOf[player], edge] != locationOf[actor])
+                    if (_world.Neighbors[edge] != locationOf[actor])
                         continue;
                     if (actor == wumpus)
                     {
@@ -172,8 +171,7 @@ namespace Wumpus
             }
 
             print("You are in room " + locationOf[player]);
-            print("Tunnels lead to " + _world.Rooms[playerLocation, 0] + " " + _world.Rooms[playerLocation, 1] + " "
-                  + _world.Rooms[playerLocation, 2]);
+            print("Tunnels lead to " + _world.Neighbors[0] + " " + _world.Neighbors[1] + " " + _world.Neighbors[2]);
         }
 
         private void move()
@@ -186,16 +184,16 @@ namespace Wumpus
             {
                 do
                 {
-                    playerLocation = input_number();
-                } while (!(playerLocation >= 1 && playerLocation <= WumpusWorld.MAX_ROOMS));
+                    _world.PutPlayerIn(input_number());
+                } while (!(_world.PlayerLocation >= 1 && _world.PlayerLocation <= WumpusWorld.MAX_ROOMS));
 
-                if (_world.Rooms[locationOf[player], 0] == playerLocation ||
-                    _world.Rooms[locationOf[player], 1] == playerLocation
-                    || _world.Rooms[locationOf[player], 2] == playerLocation)
+                if (_world.Neighbors[0] == _world.PlayerLocation ||
+                    _world.Neighbors[1] == _world.PlayerLocation
+                    || _world.Neighbors[2] == _world.PlayerLocation)
                 {
                     validRoom = true;
                 }
-                else if (playerLocation == locationOf[player])
+                else if (_world.PlayerLocation == locationOf[player])
                 {
                     validRoom = true;
                 }
@@ -210,9 +208,9 @@ namespace Wumpus
             {
                 stillSettling = false;
 
-                locationOf[player] = playerLocation;
+                locationOf[player] = _world.PlayerLocation;
 
-                if (playerLocation == locationOf[wumpus])
+                if (_world.PlayerLocation == locationOf[wumpus])
                 {
                     print("bumped wumpus");
                     moveWumpus();
@@ -222,15 +220,15 @@ namespace Wumpus
                     }
                 }
 
-                if (playerLocation == locationOf[pit1] || playerLocation == locationOf[pit2])
+                if (_world.PlayerLocation == locationOf[pit1] || _world.PlayerLocation == locationOf[pit2])
                 {
                     print("fell in pit");
                     fate = Fate.PlayerLoses;
                     return;
                 }
-                else if (playerLocation == locationOf[bats1] || playerLocation == locationOf[bats2])
+                else if (_world.PlayerLocation == locationOf[bats1] || _world.PlayerLocation == locationOf[bats2])
                 {
-                    playerLocation = random1toN(WumpusWorld.MAX_ROOMS);
+                    _world.PutPlayerIn(random1toN(WumpusWorld.MAX_ROOMS));
                     stillSettling = true;
                 }
                 else
@@ -288,7 +286,7 @@ namespace Wumpus
                 bool targetFound = false;
                 for (int edge = 0; edge < 3; edge++)
                 {
-                    if (_world.Rooms[arrowLocation, edge] == targets[target])
+                    if (_world.RoomAt(arrowLocation, edge) == targets[target])
                     {
                         targetFound = true;
                         arrowLocation = targets[target];
@@ -302,7 +300,7 @@ namespace Wumpus
                 }
 
                 if (!targetFound)
-                    arrowLocation = _world.Rooms[playerLocation, random0uptoN(3)];
+                    arrowLocation = _world.Neighbors[random0uptoN(3)];
 
                 if (arrowLocation == locationOf[wumpus])
                 {
@@ -319,7 +317,7 @@ namespace Wumpus
             }
 
             print("missed");
-            playerLocation = locationOf[player];
+            _world.PutPlayerIn(locationOf[player]);
             moveWumpus();
 
             arrows = arrows - 1;
@@ -347,9 +345,9 @@ namespace Wumpus
             int newWumpusLocation = random0uptoN(4);
             if (newWumpusLocation < 3)
             {
-                locationOf[wumpus] = _world.Rooms[locationOf[wumpus], newWumpusLocation];
+                locationOf[wumpus] = _world.RoomAt(locationOf[wumpus], newWumpusLocation);
             }
-            if (locationOf[wumpus] == playerLocation)
+            if (locationOf[wumpus] == _world.PlayerLocation)
             {
                 print("wumpus got you");
                 fate = Fate.PlayerLoses;

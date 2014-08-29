@@ -10,6 +10,7 @@
             7, 16, 18, 9, 17, 19, 11, 18, 20, 13, 16, 19 };
 
         private int[,] _rooms = new int[MAX_ROOMS + 1, MAX_EDGES];   // 1-based, room 0 not used
+        private int _playerLocation;
 
         public void LoadMap()
         {
@@ -26,6 +27,25 @@
         public int[,] Rooms
         {
             get { return _rooms; }
+        }
+
+        public int PlayerLocation
+        {
+            get { return _playerLocation; }
+        }
+
+        public int[] Neighbors {
+            get { return new[] { Rooms[PlayerLocation, 0], Rooms[PlayerLocation, 1], Rooms[PlayerLocation, 2] }; }
+        }
+
+        public void PutPlayerIn(int room)
+        {
+            _playerLocation = room;
+        }
+
+        public int RoomAt(int room, int edge)
+        {
+            return Rooms[room, edge];
         }
     }
 }
