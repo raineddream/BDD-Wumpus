@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IndustrialLogic.WumpusLocation;
 
 namespace Wumpus
 {
@@ -22,8 +23,6 @@ namespace Wumpus
     {
 // Inspired by Wumpus as designed by Gregory Yob in the 1970s. 
         private Random rand = new Random();
-	    private const int MAX_ROOMS = 20;
-        private const int MAX_EDGES = 3;
         private const int MAX_TARGETS = 5;
 	    private const int STARTING_ARROWS = 5;
 	
@@ -36,26 +35,26 @@ namespace Wumpus
 
 	    Fate fate;
 	
-	    int[,] rooms = new int[MAX_ROOMS + 1, MAX_EDGES];   // 1-based, room 0 not used
 	    int[] targets = new int[MAX_TARGETS];
-
-        private static readonly int[] neighboringRooms = { 2, 5, 8, 1, 3, 10, 2, 4, 12, 3, 5, 14, 1, 4, 6, 5, 7, 15, 6, 8, 17, 1, 7, 9, 8,
-            10, 18, 2, 9, 11, 10, 12, 19, 3, 11, 13, 12, 14, 20, 4, 13, 15, 6, 14, 16, 15, 17, 20,
-            7, 16, 18, 9, 17, 19, 11, 18, 20, 13, 16, 19 };
 
 
         int[] locationOf = new int[6];
 	    int[] savedActorLocations = new int[6];
+        private WumpusWorld _world;
 
-	    const int player = 0;
+        const int player = 0;
 	    const int wumpus = 1;
 	    const int pit1 = 2;
 	    const int pit2 = 3;
 	    const int bats1 = 4;
 	    const int bats2 = 5;
 
-	
-	    public void doit() {
+        public Wumpus()
+        {
+            _world = new WumpusWorld();
+        }
+
+        public void doit() {
 		    print("Hunt the Wumpus");
 
 		    print("instructions? [y/n]");
@@ -63,9 +62,9 @@ namespace Wumpus
 		    if (!(wantsInstructions.Equals("n")))
 			    instructions();
 
-		    loadMap();
-		
-		    setupNewWorld();
+            _world.LoadMap();
+
+            setupNewWorld();
 				
 		    while (true) {
 				    arrows = STARTING_ARROWS;
@@ -101,20 +100,11 @@ namespace Wumpus
 		    }
 	    }
 
-	private void loadMap() {
-		int index = 0;
-		for (int room = 1; room <= MAX_ROOMS; room++) {
-			for (int edge = 0; edge < MAX_EDGES; edge++) {
-				rooms[room,edge] = neighboringRooms[index++];
-			}
-		}
-	}
-
-	private void setupNewWorld() {
+    private void setupNewWorld() {
 		bool someActorsHaveSameRoom = true;
 		while (someActorsHaveSameRoom) {
 			for (int actor = 0; actor < locationOf.ToArray().Length; actor++) {
-				locationOf[actor] = random1toN(MAX_ROOMS);
+				locationOf[actor] = random1toN(WumpusWorld.MAX_ROOMS);
 				savedActorLocations[actor] = locationOf[actor];
 			}
 			
@@ -138,7 +128,7 @@ namespace Wumpus
 		print("");
 		for (int actor = wumpus; actor < locationOf.ToArray().Length; actor++) {
 			for (int edge = 0; edge < 3; edge++) {
-				if (rooms[locationOf[player],edge] != locationOf[actor])
+				if (_world.Rooms[locationOf[player],edge] != locationOf[actor])
 					continue;
 				if (actor  == wumpus) {
 					print("I smell a wumpus!");
@@ -154,8 +144,8 @@ namespace Wumpus
 		}
 
 		print("You are in room " + locationOf[player]);
-		print("Tunnels lead to " + rooms[playerLocation,0] + " " + rooms[playerLocation,1] + " "
-				+ rooms[playerLocation,2]);
+		print("Tunnels lead to " + _world.Rooms[playerLocation,0] + " " + _world.Rooms[playerLocation,1] + " "
+				+ _world.Rooms[playerLocation,2]);
 	}
 
 	private void move() {
@@ -166,10 +156,10 @@ namespace Wumpus
 		do {
 			do {
 				playerLocation = input_number();
-			} while (!(playerLocation >= 1 && playerLocation <= MAX_ROOMS));
+			} while (!(playerLocation >= 1 && playerLocation <= WumpusWorld.MAX_ROOMS));
 
-			if (rooms[locationOf[player],0] == playerLocation || rooms[locationOf[player],1] == playerLocation
-					|| rooms[locationOf[player],2] == playerLocation) {
+			if (_world.Rooms[locationOf[player],0] == playerLocation || _world.Rooms[locationOf[player],1] == playerLocation
+					|| _world.Rooms[locationOf[player],2] == playerLocation) {
 				validRoom = true;
 			} else if (playerLocation == locationOf[player]) {
 				validRoom = true;
@@ -197,7 +187,7 @@ namespace Wumpus
 				fate = Fate.PlayerLoses;
 				return;
 			} else if (playerLocation == locationOf[bats1] || playerLocation == locationOf[bats2]) {
-				playerLocation = random1toN(MAX_ROOMS);
+				playerLocation = random1toN(WumpusWorld.MAX_ROOMS);
 				stillSettling = true;
 			} else {
 				return;
@@ -242,7 +232,7 @@ namespace Wumpus
 		for (int target = 0; target < roomsToShoot; target++) {
 			bool targetFound = false;
 			for (int edge = 0; edge < 3; edge++) {
-				if (rooms[arrowLocation,edge] == targets[target]) {
+				if (_world.Rooms[arrowLocation,edge] == targets[target]) {
 					targetFound = true;
 					arrowLocation = targets[target];
 					if (arrowLocation == locationOf[wumpus]) {
@@ -254,7 +244,7 @@ namespace Wumpus
 			}
 
 			if (!targetFound) 
-				arrowLocation = rooms[playerLocation,random0uptoN(3)];
+				arrowLocation = _world.Rooms[playerLocation,random0uptoN(3)];
 			
 			if (arrowLocation == locationOf[wumpus]) {
 				print("You got the wumpus");
@@ -290,7 +280,7 @@ namespace Wumpus
 	public void moveWumpus() {
 		int newWumpusLocation = random0uptoN(4);
 		if (newWumpusLocation < 3) {
-			locationOf[wumpus] = rooms[locationOf[wumpus],newWumpusLocation];
+			locationOf[wumpus] = _world.Rooms[locationOf[wumpus],newWumpusLocation];
 		}
 		if (locationOf[wumpus] == playerLocation) {
 			print("wumpus got you");

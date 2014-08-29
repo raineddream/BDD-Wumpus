@@ -50,6 +50,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WumpusWorldScenarios.feature</DependentUpon>
     </Compile>
+    <Compile Include="WumpusWorldSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
