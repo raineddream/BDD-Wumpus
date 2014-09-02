@@ -18,7 +18,6 @@ namespace Wumpus
     public class Wumpus
     {
 // Inspired by Wumpus as designed by Gregory Yob in the 1970s. 
-        private Random rand = new Random();
         private const int MAX_TARGETS = 5;
         private const int STARTING_ARROWS = 5;
 
@@ -45,6 +44,7 @@ namespace Wumpus
         private int[] locationOf = new int[6];
         private int[] savedActorLocations = new int[6];
         private WumpusWorld _world;
+        private RandomNumber _randomNumber = new RandomNumber();
 
         private const int player = 0;
         private const int wumpus = 1;
@@ -119,7 +119,7 @@ namespace Wumpus
             {
                 for (int actor = 0; actor < locationOf.ToArray().Length; actor++)
                 {
-                    locationOf[actor] = random1toN(WumpusWorld.MAX_ROOMS);
+                    locationOf[actor] = _randomNumber.Random1toN(WumpusWorld.MAX_ROOMS);
                     savedActorLocations[actor] = locationOf[actor];
                 }
 
@@ -230,7 +230,7 @@ namespace Wumpus
                 }
                 else if (_world.PlayerLocation == locationOf[bats1] || _world.PlayerLocation == locationOf[bats2])
                 {
-                    _world.PutPlayerIn(random1toN(WumpusWorld.MAX_ROOMS));
+                    _world.PutPlayerIn(_randomNumber.Random1toN(WumpusWorld.MAX_ROOMS));
                     stillSettling = true;
                 }
                 else
@@ -302,7 +302,7 @@ namespace Wumpus
                 }
 
                 if (!targetFound)
-                    arrowLocation = _world.Neighbors[random0uptoN(3)];
+                    arrowLocation = _world.Neighbors[_randomNumber.Random0uptoN(3)];
 
                 if (arrowLocation == _world.WumpusLocation)
                 {
@@ -344,7 +344,7 @@ namespace Wumpus
 
         public void moveWumpus()
         {
-            int newWumpusLocation = random0uptoN(4);
+            int newWumpusLocation = _randomNumber.Random0uptoN(4);
             if (newWumpusLocation < 3)
             {
                 _world.PutWumpusIn(_world.RoomAt(_world.WumpusLocation, newWumpusLocation));
@@ -377,18 +377,6 @@ namespace Wumpus
             {
                 return 0;
             }
-        }
-
-        private int random1toN(int n)
-        {
-            int random = rand.Next(1, n);
-            return random;
-        }
-
-        private int random0uptoN(int n)
-        {
-            int random = rand.Next(0, n - 1);
-            return random;
         }
     }
 }
