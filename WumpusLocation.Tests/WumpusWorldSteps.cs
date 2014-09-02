@@ -29,5 +29,35 @@ namespace IndustrialLogic.WumpusLocation
             Assert.That(_world.Neighbors, Contains.Item(neighbour2));
             Assert.That(_world.Neighbors, Contains.Item(neighbour3));
         }
+
+        [Given(@"the player is in room (.*)")]
+        public void Given_the_player_is_in_room(int room)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Given(@"the wumpus is in room (.*)")]
+        public void Given_the_wumpus_is_in_room(int room)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [When(@"the player shoots into room (.*)")]
+        public void When_the_player_shoots_into_room(int room)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the wumpus is dead")]
+        public void Then_the_wumpus_is_dead()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the player wins")]
+        public void Then_the_player_wins()
+        {
+            ScenarioContext.Current.Pending();
+        }
     }
 }

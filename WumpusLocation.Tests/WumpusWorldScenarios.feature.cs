@@ -95,9 +95,30 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.Given("a Wumpus World", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
- testRunner.When(string.Format("I am in a {0}", room), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.When(string.Format("I am in a {0}", room), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
- testRunner.Then(string.Format("my neighbors are {0}, {1}, and {2}", a, b, c), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then(string.Format("my neighbors are {0}, {1}, and {2}", a, b, c), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("The player wins")]
+        public virtual void ThePlayerWins()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The player wins", ((string[])(null)));
+#line 35
+this.ScenarioSetup(scenarioInfo);
+#line 36
+  testRunner.Given("the player is in room 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 37
+    testRunner.And("the wumpus is in room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 38
+   testRunner.When("the player shoots into room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 39
+   testRunner.Then("the wumpus is dead", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 40
+    testRunner.And("the player wins", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

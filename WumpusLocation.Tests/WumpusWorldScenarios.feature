@@ -6,8 +6,8 @@
 Scenario Outline: Describe the initial layout of the Wumpus World
 
 	Given a Wumpus World
-	When I am in a <room>
-	Then my neighbors are <A>, <B>, and <C>
+	 When I am in a <room>
+	 Then my neighbors are <A>, <B>, and <C>
 
 	Examples:
 		| room |  A |  B |  C |
@@ -32,3 +32,9 @@ Scenario Outline: Describe the initial layout of the Wumpus World
 		|  19  | 11 | 18 | 20 |
 		|  20  | 13 | 16 | 19 | 
 
+Scenario: The player wins
+  Given the player is in room 1
+    And the wumpus is in room 2 
+   When the player shoots into room 2
+   Then the wumpus is dead 
+    And the player wins 
