@@ -146,11 +146,13 @@ namespace Wumpus
         private void situationalAwareness()
         {
             print("");
-            for (int actor = wumpus; actor < locationOf.ToArray().Length; actor++)
+            int[] actors = { wumpus, pit1, pit2, bats1, bats2 };
+            int[] dangerousLocations = { _world.WumpusLocation, locationOf[pit1], locationOf[pit2], locationOf[bats1], locationOf[bats2] };
+            for (int actor = 0; actor < actors.Length; actor++)
             {
                 for (int edge = 0; edge < 3; edge++)
                 {
-                    if (_world.Neighbors[edge] != locationOf[actor])
+                    if (_world.Neighbors[edge] != dangerousLocations[actor])
                         continue;
                     if (actor == wumpus)
                     {
@@ -170,7 +172,7 @@ namespace Wumpus
                 }
             }
 
-            print("You are in room " + locationOf[player]);
+            print("You are in room " + _world.PlayerLocation);
             print("Tunnels lead to " + _world.Neighbors[0] + " " + _world.Neighbors[1] + " " + _world.Neighbors[2]);
         }
 
@@ -210,7 +212,7 @@ namespace Wumpus
 
                 locationOf[player] = _world.PlayerLocation;
 
-                if (_world.PlayerLocation == locationOf[wumpus])
+                if (_world.PlayerLocation == _world.WumpusLocation)
                 {
                     print("bumped wumpus");
                     moveWumpus();
@@ -290,7 +292,7 @@ namespace Wumpus
                     {
                         targetFound = true;
                         arrowLocation = targets[target];
-                        if (arrowLocation == locationOf[wumpus])
+                        if (arrowLocation == _world.WumpusLocation)
                         {
                             print("You got the wumpus");
                             fate = Fate.PlayerWins;
@@ -302,7 +304,7 @@ namespace Wumpus
                 if (!targetFound)
                     arrowLocation = _world.Neighbors[random0uptoN(3)];
 
-                if (arrowLocation == locationOf[wumpus])
+                if (arrowLocation == _world.WumpusLocation)
                 {
                     print("You got the wumpus");
                     fate = Fate.PlayerWins;
@@ -345,9 +347,9 @@ namespace Wumpus
             int newWumpusLocation = random0uptoN(4);
             if (newWumpusLocation < 3)
             {
-                locationOf[wumpus] = _world.RoomAt(locationOf[wumpus], newWumpusLocation);
+                _world.PutWumpusIn(_world.RoomAt(_world.WumpusLocation, newWumpusLocation));
             }
-            if (locationOf[wumpus] == _world.PlayerLocation)
+            if (_world.WumpusLocation == _world.PlayerLocation)
             {
                 print("wumpus got you");
                 fate = Fate.PlayerLoses;

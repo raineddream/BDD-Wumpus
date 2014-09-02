@@ -11,6 +11,7 @@
 
         private int[,] _rooms = new int[MAX_ROOMS + 1, MAX_EDGES];   // 1-based, room 0 not used
         private int _playerLocation;
+        private int _wumpusLocation;
 
         public void LoadMap()
         {
@@ -34,6 +35,11 @@
             get { return _playerLocation; }
         }
 
+        public int WumpusLocation
+        {
+            get { return _wumpusLocation; }
+        }
+
         public int[] Neighbors {
             get { return new[] { Rooms[PlayerLocation, 0], Rooms[PlayerLocation, 1], Rooms[PlayerLocation, 2] }; }
         }
@@ -50,6 +56,7 @@
 
         public void PutWumpusIn(int room)
         {
+            _wumpusLocation = room;
         }
 
         public void PlayerShootsInto(int room)
