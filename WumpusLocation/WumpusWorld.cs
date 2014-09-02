@@ -38,14 +38,33 @@
             get { return new[] { Rooms[PlayerLocation, 0], Rooms[PlayerLocation, 1], Rooms[PlayerLocation, 2] }; }
         }
 
+        public int RoomAt(int room, int edge)
+        {
+            return Rooms[room, edge];
+        }
+
         public void PutPlayerIn(int room)
         {
             _playerLocation = room;
         }
 
-        public int RoomAt(int room, int edge)
+        public void PutWumpusIn(int room)
         {
-            return Rooms[room, edge];
+        }
+
+        public void PlayerShootsInto(int room)
+        {
+            
+        }
+
+        public bool WumpusIsDead()
+        {
+            return false;
+        }
+
+        public bool DoesPlayWin()
+        {
+            return false;
         }
     }
 }

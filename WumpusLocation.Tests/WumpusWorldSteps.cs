@@ -8,11 +8,16 @@ namespace IndustrialLogic.WumpusLocation
     {
         private WumpusWorld _world;
 
-        [Given(@"a Wumpus World")]
-        public void Given_aa_wumpus_world()
+        [BeforeScenario]
+        public void SetupScenario()
         {
             _world = new WumpusWorld();
             _world.LoadMap();
+        }
+
+        [Given(@"a Wumpus World")]
+        public void Given_a_wumpus_world()
+        {
         }
 
         [When(@"I am in a (.*)")]
@@ -33,31 +38,31 @@ namespace IndustrialLogic.WumpusLocation
         [Given(@"the player is in room (.*)")]
         public void Given_the_player_is_in_room(int room)
         {
-            ScenarioContext.Current.Pending();
+            _world.PutPlayerIn(room);
         }
 
         [Given(@"the wumpus is in room (.*)")]
         public void Given_the_wumpus_is_in_room(int room)
         {
-            ScenarioContext.Current.Pending();
+            _world.PutWumpusIn(room);
         }
 
         [When(@"the player shoots into room (.*)")]
         public void When_the_player_shoots_into_room(int room)
         {
-            ScenarioContext.Current.Pending();
+            _world.PlayerShootsInto(room);
         }
 
         [Then(@"the wumpus is dead")]
         public void Then_the_wumpus_is_dead()
         {
-            ScenarioContext.Current.Pending();
+            Assert.That(_world.WumpusIsDead(), Is.True);
         }
 
         [Then(@"the player wins")]
         public void Then_the_player_wins()
         {
-            ScenarioContext.Current.Pending();
+            Assert.That(_world.DoesPlayWin(), Is.True);
         }
     }
 }
