@@ -29,10 +29,10 @@ namespace IndustrialLogic.WumpusLocation
         [Then(@"my neighbors are (.*), (.*), and (.*)")]
         public void Then_my_neighbors_are_and(int neighbour1, int neighbour2, int neighbour3)
         {
-            Assert.That(_world.Neighbors.Length, Is.EqualTo(3));
-            Assert.That(_world.Neighbors, Contains.Item(neighbour1));
-            Assert.That(_world.Neighbors, Contains.Item(neighbour2));
-            Assert.That(_world.Neighbors, Contains.Item(neighbour3));
+            Assert.That(_world.PlayNeighbors.Length, Is.EqualTo(3));
+            Assert.That(_world.PlayNeighbors, Contains.Item(neighbour1));
+            Assert.That(_world.PlayNeighbors, Contains.Item(neighbour2));
+            Assert.That(_world.PlayNeighbors, Contains.Item(neighbour3));
         }
 
         [Given(@"the player is in room (.*)")]

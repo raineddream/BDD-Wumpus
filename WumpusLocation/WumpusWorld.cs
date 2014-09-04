@@ -71,7 +71,7 @@ namespace IndustrialLogic.WumpusLocation
             set { _locationOf[Bat2] = value; }
         }
 
-        public int[] Neighbors {
+        public int[] PlayNeighbors {
             get { return new[] { _rooms[PlayerLocation, 0], _rooms[PlayerLocation, 1], _rooms[PlayerLocation, 2] }; }
         }
 
@@ -128,7 +128,12 @@ namespace IndustrialLogic.WumpusLocation
 
         public int AnyRoomInWorld()
         {
-            return _randomNumber.Random1toN(WumpusWorld.MaxRooms);
+            return _randomNumber.Random1toN(MaxRooms);
+        }
+
+        public int AnyPlayerNeighbor()
+        {
+            return PlayNeighbors[_randomNumber.Random0uptoN(3)];
         }
     }
 }

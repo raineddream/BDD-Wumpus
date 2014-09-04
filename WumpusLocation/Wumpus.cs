@@ -269,7 +269,7 @@ namespace Wumpus
                 }
 
                 if (!targetFound)
-                    arrowLocation = _world.PlayNeighbors[_randomNumber.Random0uptoN(3)];
+                    arrowLocation = _world.AnyPlayerNeighbor();
 
                 if (arrowLocation == _world.WumpusLocation)
                 {
