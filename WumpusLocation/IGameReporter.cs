@@ -2,6 +2,6 @@
 {
     public interface IGameReporter
     {
-        void report(string message);
+        void Report(string message);
     }
 }

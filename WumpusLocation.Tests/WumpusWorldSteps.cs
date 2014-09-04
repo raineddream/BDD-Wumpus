@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace IndustrialLogic.WumpusLocation
@@ -7,11 +8,13 @@ namespace IndustrialLogic.WumpusLocation
     public class WumpusWorldSteps
     {
         private WumpusWorld _world;
+        private Mock<IGameReporter> _reporterMock;
 
         [BeforeScenario]
         public void SetupScenario()
         {
-            _world = new WumpusWorld(new ConsoleReporter());
+            _reporterMock = new Mock<IGameReporter>();
+            _world = new WumpusWorld(_reporterMock.Object);
             _world.LoadMap();
         }
 
@@ -64,5 +67,12 @@ namespace IndustrialLogic.WumpusLocation
         {
             Assert.That(_world.DoesPlayWin(), Is.True);
         }
+
+        [Then(@"game prompts ""(.*)""")]
+        public void Then_game_prompts(string message)
+        {
+            _reporterMock.Verify(x => x.Report(message));
+        }
+
     }
 }

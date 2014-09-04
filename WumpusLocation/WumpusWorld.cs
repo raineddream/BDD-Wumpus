@@ -22,7 +22,7 @@ namespace IndustrialLogic.WumpusLocation
         private readonly int[] _locationOf = new int[6];
         private readonly int[] _savedActorLocations = new int[6];
         private readonly RandomNumber _randomNumber = new RandomNumber();
-        private IGameReporter _reporter;
+        private readonly IGameReporter _reporter;
 
         public WumpusWorld(IGameReporter reporter)
         {
@@ -91,12 +91,12 @@ namespace IndustrialLogic.WumpusLocation
 
         public bool WumpusIsDead()
         {
-            return false;
+            return DoesPlayWin();
         }
 
         public bool DoesPlayWin()
         {
-            return false;
+            return PlayerFate == PlayerFate.Wins;
         }
 
         public void SetupNew()
@@ -164,7 +164,7 @@ namespace IndustrialLogic.WumpusLocation
                         arrowLocation = targets[target];
                         if (arrowLocation == WumpusLocation)
                         {
-                            _reporter.report("You got the wumpus");
+                            _reporter.Report("You got the wumpus");
                             PlayerFate = PlayerFate.Wins;
                             return true;
                         }
@@ -178,13 +178,13 @@ namespace IndustrialLogic.WumpusLocation
 
                 if (arrowLocation == WumpusLocation)
                 {
-                    _reporter.report("You got the wumpus");
+                    _reporter.Report("You got the wumpus");
                     PlayerFate = PlayerFate.Wins;
                     return true;
                 }
                 else if (arrowLocation == PlayerLocation)
                 {
-                    _reporter.report("Ouch - arrow got you");
+                    _reporter.Report("Ouch - arrow got you");
                     PlayerFate = PlayerFate.Loses;
                     return true;
                 }

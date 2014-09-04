@@ -36,5 +36,6 @@ Scenario: The player wins
   Given the player is in room 1
     And the wumpus is in room 2 
    When the player shoots into room 2
-   Then the wumpus is dead 
-    And the player wins 
+   Then the wumpus is dead
+    And the player wins
+	And game prompts "You got the wumpus"

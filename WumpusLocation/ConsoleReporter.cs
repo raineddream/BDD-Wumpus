@@ -4,7 +4,7 @@ namespace IndustrialLogic.WumpusLocation
 {
     public class ConsoleReporter : IGameReporter
     {
-        public void report(string message)
+        public void Report(string message)
         {
             Console.WriteLine(message);
         }

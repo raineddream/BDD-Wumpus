@@ -119,6 +119,8 @@ this.ScenarioSetup(scenarioInfo);
    testRunner.Then("the wumpus is dead", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 40
     testRunner.And("the player wins", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 41
+ testRunner.And("game prompts \"You got the wumpus\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
