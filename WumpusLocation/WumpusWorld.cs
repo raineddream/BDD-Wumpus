@@ -14,7 +14,7 @@ namespace IndustrialLogic.WumpusLocation
         private const int Bat1  = 4;
         private const int Bat2  = 5;
 
-        private static readonly int[] neighboringRooms = { 2, 5, 8, 1, 3, 10, 2, 4, 12, 3, 5, 14, 1, 4, 6, 5, 7, 15, 6, 8, 17, 1, 7, 9, 8,
+        private readonly int[] _neighboringRooms = { 2, 5, 8, 1, 3, 10, 2, 4, 12, 3, 5, 14, 1, 4, 6, 5, 7, 15, 6, 8, 17, 1, 7, 9, 8,
             10, 18, 2, 9, 11, 10, 12, 19, 3, 11, 13, 12, 14, 20, 4, 13, 15, 6, 14, 16, 15, 17, 20,
             7, 16, 18, 9, 17, 19, 11, 18, 20, 13, 16, 19 };
 
@@ -30,7 +30,7 @@ namespace IndustrialLogic.WumpusLocation
             {
                 for (int edge = 0; edge < MaxEdges; edge++)
                 {
-                    _rooms[room, edge] = neighboringRooms[index++];
+                    _rooms[room, edge] = _neighboringRooms[index++];
                 }
             }
         }

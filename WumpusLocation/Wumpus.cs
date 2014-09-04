@@ -154,7 +154,7 @@ namespace Wumpus
                 do
                 {
                     playerMoveToRoom = input_number();
-                } while (!(playerMoveToRoom >= 1 && playerMoveToRoom <= WumpusWorld.MAX_ROOMS));
+                } while (!(playerMoveToRoom >= 1 && playerMoveToRoom <= WumpusWorld.MaxRooms));
 
                 if (_world.Neighbors[0] == playerMoveToRoom ||
                     _world.Neighbors[1] == playerMoveToRoom
@@ -197,7 +197,7 @@ namespace Wumpus
                 }
                 else if (_world.PlayerLocation == _world.Bat1Location || _world.PlayerLocation == _world.Bat2Location)
                 {
-                    _world.PlayerLocation = _randomNumber.Random1toN(WumpusWorld.MAX_ROOMS);
+                    _world.PlayerLocation = _randomNumber.Random1toN(WumpusWorld.MaxRooms);
                     stillSettling = true;
                 }
                 else
