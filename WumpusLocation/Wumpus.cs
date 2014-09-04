@@ -71,7 +71,6 @@ namespace Wumpus
             while (true)
             {
                 arrows = STARTING_ARROWS;
-//                _world.PlayerLocation = _world.locationOf[player];
                 fate = Fate.Unknown;
 
                 while (fate == Fate.Unknown)
@@ -284,7 +283,6 @@ namespace Wumpus
             }
 
             print("missed");
-//            _world.PlayerLocation = _world.locationOf[player];
             moveWumpus();
 
             arrows = arrows - 1;
