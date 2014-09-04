@@ -118,7 +118,7 @@ namespace Wumpus
             {
                 for (int edge = 0; edge < 3; edge++)
                 {
-                    if (_world.Neighbors[edge] != dangerousLocations[actor])
+                    if (_world.PlayNeighbors[edge] != dangerousLocations[actor])
                         continue;
                     if (actor == wumpus)
                     {
@@ -139,7 +139,7 @@ namespace Wumpus
             }
 
             print("You are in room " + _world.PlayerLocation);
-            print("Tunnels lead to " + _world.Neighbors[0] + " " + _world.Neighbors[1] + " " + _world.Neighbors[2]);
+            print("Tunnels lead to " + _world.PlayNeighbors[0] + " " + _world.PlayNeighbors[1] + " " + _world.PlayNeighbors[2]);
         }
 
         private void move()
@@ -156,9 +156,9 @@ namespace Wumpus
                     playerMoveToRoom = input_number();
                 } while (!(playerMoveToRoom >= 1 && playerMoveToRoom <= WumpusWorld.MaxRooms));
 
-                if (_world.Neighbors[0] == playerMoveToRoom ||
-                    _world.Neighbors[1] == playerMoveToRoom
-                    || _world.Neighbors[2] == playerMoveToRoom)
+                if (_world.PlayNeighbors[0] == playerMoveToRoom ||
+                    _world.PlayNeighbors[1] == playerMoveToRoom
+                    || _world.PlayNeighbors[2] == playerMoveToRoom)
                 {
                     validRoom = true;
                 }
@@ -269,7 +269,7 @@ namespace Wumpus
                 }
 
                 if (!targetFound)
-                    arrowLocation = _world.Neighbors[_randomNumber.Random0uptoN(3)];
+                    arrowLocation = _world.PlayNeighbors[_randomNumber.Random0uptoN(3)];
 
                 if (arrowLocation == _world.WumpusLocation)
                 {
