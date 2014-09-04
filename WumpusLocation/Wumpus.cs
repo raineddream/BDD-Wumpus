@@ -113,7 +113,7 @@ namespace Wumpus
         {
             print("");
             int[] actors = { wumpus, pit1, pit2, bats1, bats2 };
-            int[] dangerousLocations = { _world.WumpusLocation, _world.locationOf[pit1], _world.locationOf[pit2], _world.locationOf[bats1], _world.locationOf[bats2] };
+            int[] dangerousLocations = { _world.WumpusLocation, _world.Pit1Location, _world.Pit2Location, _world.Bat1Location, _world.Bat2Location };
             for (int actor = 0; actor < actors.Length; actor++)
             {
                 for (int edge = 0; edge < 3; edge++)
@@ -188,13 +188,13 @@ namespace Wumpus
                     }
                 }
 
-                if (_world.PlayerLocation == _world.locationOf[pit1] || _world.PlayerLocation == _world.locationOf[pit2])
+                if (_world.PlayerLocation == _world.Pit1Location || _world.PlayerLocation == _world.Pit2Location)
                 {
                     print("fell in pit");
                     fate = Fate.PlayerLoses;
                     return;
                 }
-                else if (_world.PlayerLocation == _world.locationOf[bats1] || _world.PlayerLocation == _world.locationOf[bats2])
+                else if (_world.PlayerLocation == _world.Bat1Location || _world.PlayerLocation == _world.Bat2Location)
                 {
                     _world.PutPlayerIn(_randomNumber.Random1toN(WumpusWorld.MAX_ROOMS));
                     stillSettling = true;
