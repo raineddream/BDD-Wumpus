@@ -33,6 +33,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fate.cs" />
     <Compile Include="RandomNumber.cs" />
     <Compile Include="Wumpus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

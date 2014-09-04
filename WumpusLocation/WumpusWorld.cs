@@ -23,6 +23,11 @@ namespace IndustrialLogic.WumpusLocation
         private readonly int[] _savedActorLocations = new int[6];
         private readonly RandomNumber _randomNumber = new RandomNumber();
 
+        public WumpusWorld()
+        {
+            PlayerFate = PlayerFate.Unknown;
+        }
+
         public void LoadMap()
         {
             int index = 0;
@@ -74,6 +79,8 @@ namespace IndustrialLogic.WumpusLocation
         public int[] PlayNeighbors {
             get { return new[] { _rooms[PlayerLocation, 0], _rooms[PlayerLocation, 1], _rooms[PlayerLocation, 2] }; }
         }
+
+        public PlayerFate PlayerFate { get; set; }
 
         public int RoomAt(int room, int edge)
         {

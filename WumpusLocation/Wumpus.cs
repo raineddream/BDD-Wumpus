@@ -17,15 +17,10 @@ namespace Wumpus
     public class Wumpus
     {
 // Inspired by Wumpus as designed by Gregory Yob in the 1970s. 
-        private const int MAX_TARGETS = 5;
-        private const int STARTING_ARROWS = 5;
 
-        public enum Fate
-        {
-            Unknown,
-            PlayerWins,
-            PlayerLoses
-        };
+        private const int MAX_TARGETS = 5;
+
+        private const int STARTING_ARROWS = 5;
 
         public enum Action
         {
@@ -34,9 +29,6 @@ namespace Wumpus
         };
 
         private int arrows;
-
-        private Fate fate;
-
 
         private WumpusWorld _world;
         private RandomNumber _randomNumber = new RandomNumber();
@@ -69,9 +61,9 @@ namespace Wumpus
             while (true)
             {
                 arrows = STARTING_ARROWS;
-                fate = Fate.Unknown;
+                _world.PlayerFate = PlayerFate.Unknown;
 
-                while (fate == Fate.Unknown)
+                while (_world.PlayerFate == PlayerFate.Unknown)
                 {
                     situationalAwareness();
 
@@ -87,7 +79,7 @@ namespace Wumpus
                     }
                 }
 
-                if (fate == Fate.PlayerWins)
+                if (_world.PlayerFate == PlayerFate.Wins)
                 {
                     print("You win");
                 }
@@ -141,7 +133,7 @@ namespace Wumpus
 
         private void move()
         {
-            fate = Fate.Unknown;
+            _world.PlayerFate = PlayerFate.Unknown;
             print("Where to?");
 
             bool validRoom = false;
@@ -178,7 +170,7 @@ namespace Wumpus
                 {
                     print("bumped wumpus");
                     moveWumpus();
-                    if (fate != Fate.Unknown)
+                    if (_world.PlayerFate != PlayerFate.Unknown)
                     {
                         return;
                     }
@@ -187,7 +179,7 @@ namespace Wumpus
                 if (_world.PlayerLocation == _world.Pit1Location || _world.PlayerLocation == _world.Pit2Location)
                 {
                     print("fell in pit");
-                    fate = Fate.PlayerLoses;
+                    _world.PlayerFate = PlayerFate.Loses;
                     return;
                 }
                 else if (_world.PlayerLocation == _world.Bat1Location || _world.PlayerLocation == _world.Bat2Location)
@@ -225,8 +217,7 @@ namespace Wumpus
         private void shoot()
         {
             int roomsToShoot;
-            fate = Fate.Unknown;
-            int arrowLocation = _world.PlayerLocation;
+            _world.PlayerFate = PlayerFate.Unknown;
             print("# of rooms? [1-" + MAX_TARGETS + "]");
             do
             {
@@ -246,6 +237,7 @@ namespace Wumpus
                 }
             }
 
+            int arrowLocation = _world.PlayerLocation;
             for (int target = 0; target < targets.Length; target++)
             {
                 bool targetFound = false;
@@ -258,7 +250,7 @@ namespace Wumpus
                         if (arrowLocation == _world.WumpusLocation)
                         {
                             print("You got the wumpus");
-                            fate = Fate.PlayerWins;
+                            _world.PlayerFate = PlayerFate.Wins;
                             return;
                         }
                     }
@@ -270,13 +262,13 @@ namespace Wumpus
                 if (arrowLocation == _world.WumpusLocation)
                 {
                     print("You got the wumpus");
-                    fate = Fate.PlayerWins;
+                    _world.PlayerFate = PlayerFate.Wins;
                     return;
                 }
                 else if (arrowLocation == _world.PlayerLocation)
                 {
                     print("Ouch - arrow got you");
-                    fate = Fate.PlayerLoses;
+                    _world.PlayerFate = PlayerFate.Loses;
                     return;
                 }
             }
@@ -287,7 +279,7 @@ namespace Wumpus
             arrows = arrows - 1;
             if (arrows <= 0)
             {
-                fate = Fate.PlayerLoses;
+                _world.PlayerFate = PlayerFate.Loses;
             }
         }
 
@@ -314,7 +306,7 @@ namespace Wumpus
             if (_world.WumpusLocation == _world.PlayerLocation)
             {
                 print("wumpus got you");
-                fate = Fate.PlayerLoses;
+                _world.PlayerFate = PlayerFate.Loses;
             }
         }
 
