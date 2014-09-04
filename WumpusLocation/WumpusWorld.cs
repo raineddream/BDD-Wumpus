@@ -4,15 +4,15 @@ namespace IndustrialLogic.WumpusLocation
 {
     public class WumpusWorld
     {
-        public const int MaxRooms = 20;
+        private const int MaxRooms = 20;
         private const int MaxEdges = 3;
 
         private const int Player = 0;
         private const int Wumpus = 1;
         private const int Pit1   = 2;
         private const int Pit2   = 3;
-        private const int Bat1  = 4;
-        private const int Bat2  = 5;
+        private const int Bat1   = 4;
+        private const int Bat2   = 5;
 
         private readonly int[] _neighboringRooms = { 2, 5, 8, 1, 3, 10, 2, 4, 12, 3, 5, 14, 1, 4, 6, 5, 7, 15, 6, 8, 17, 1, 7, 9, 8,
             10, 18, 2, 9, 11, 10, 12, 19, 3, 11, 13, 12, 14, 20, 4, 13, 15, 6, 14, 16, 15, 17, 20,
@@ -134,6 +134,11 @@ namespace IndustrialLogic.WumpusLocation
         public int AnyPlayerNeighbor()
         {
             return PlayNeighbors[_randomNumber.Random0uptoN(3)];
+        }
+
+        public bool IsRoomInWorld(int room)
+        {
+            return room >= 1 && room <= MaxRooms;
         }
     }
 }

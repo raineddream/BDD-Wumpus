@@ -154,7 +154,7 @@ namespace Wumpus
                 do
                 {
                     playerMoveToRoom = input_number();
-                } while (!(playerMoveToRoom >= 1 && playerMoveToRoom <= WumpusWorld.MaxRooms));
+                } while (!_world.IsRoomInWorld(playerMoveToRoom));
 
                 if (_world.PlayNeighbors[0] == playerMoveToRoom ||
                     _world.PlayNeighbors[1] == playerMoveToRoom
