@@ -37,11 +37,6 @@ namespace IndustrialLogic.WumpusLocation
             }
         }
 
-        public int[,] Rooms
-        {
-            get { return _rooms; }
-        }
-
         public int PlayerLocation
         {
             get { return _playerLocation; }
@@ -78,12 +73,12 @@ namespace IndustrialLogic.WumpusLocation
         }
 
         public int[] Neighbors {
-            get { return new[] { Rooms[PlayerLocation, 0], Rooms[PlayerLocation, 1], Rooms[PlayerLocation, 2] }; }
+            get { return new[] { _rooms[PlayerLocation, 0], _rooms[PlayerLocation, 1], _rooms[PlayerLocation, 2] }; }
         }
 
         public int RoomAt(int room, int edge)
         {
-            return Rooms[room, edge];
+            return _rooms[room, edge];
         }
 
         public void PutPlayerIn(int room)
