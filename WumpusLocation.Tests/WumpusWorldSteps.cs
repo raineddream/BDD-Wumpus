@@ -23,7 +23,7 @@ namespace IndustrialLogic.WumpusLocation
         [When(@"I am in a (.*)")]
         public void When_I_am_in_a(int room)
         {
-            _world.PutPlayerIn(room);
+            _world.PlayerLocation = room;
         }
 
         [Then(@"my neighbors are (.*), (.*), and (.*)")]
@@ -38,7 +38,7 @@ namespace IndustrialLogic.WumpusLocation
         [Given(@"the player is in room (.*)")]
         public void Given_the_player_is_in_room(int room)
         {
-            _world.PutPlayerIn(room);
+            _world.PlayerLocation = room;
         }
 
         [Given(@"the wumpus is in room (.*)")]
