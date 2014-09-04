@@ -197,7 +197,7 @@ namespace Wumpus
                 }
                 else if (_world.PlayerLocation == _world.Bat1Location || _world.PlayerLocation == _world.Bat2Location)
                 {
-                    _world.PlayerLocation = _randomNumber.Random1toN(WumpusWorld.MaxRooms);
+                    _world.PlayerLocation = _world.AnyRoomInWorld();
                     stillSettling = true;
                 }
                 else

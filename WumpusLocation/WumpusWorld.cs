@@ -125,5 +125,10 @@ namespace IndustrialLogic.WumpusLocation
                 _locationOf[actor] = _savedActorLocations[actor];
             }
         }
+
+        public int AnyRoomInWorld()
+        {
+            return _randomNumber.Random1toN(WumpusWorld.MaxRooms);
+        }
     }
 }
