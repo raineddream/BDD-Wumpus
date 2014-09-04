@@ -6,7 +6,7 @@
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A056FDB1-26D5-4164-BE02-550711759656}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IndustrialLogic.WumpusLocation</RootNamespace>
     <AssemblyName>WumpusLocation</AssemblyName>
