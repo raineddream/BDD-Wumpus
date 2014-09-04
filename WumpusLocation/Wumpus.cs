@@ -37,8 +37,6 @@ namespace Wumpus
 
         private Fate fate;
 
-        private int[] targets = new int[MAX_TARGETS];
-
 
         private WumpusWorld _world;
         private RandomNumber _randomNumber = new RandomNumber();
@@ -235,7 +233,8 @@ namespace Wumpus
                 roomsToShoot = input_number();
             } while (!(roomsToShoot >= 1 && roomsToShoot <= MAX_TARGETS));
 
-            for (int target = 0; target < roomsToShoot; target++)
+            int[] targets = new int[roomsToShoot];
+            for (int target = 0; target < targets.Length; target++)
             {
                 while (true)
                 {
@@ -247,7 +246,7 @@ namespace Wumpus
                 }
             }
 
-            for (int target = 0; target < roomsToShoot; target++)
+            for (int target = 0; target < targets.Length; target++)
             {
                 bool targetFound = false;
                 for (int edge = 0; edge < 3; edge++)
