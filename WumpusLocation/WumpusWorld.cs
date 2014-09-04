@@ -4,10 +4,9 @@ namespace IndustrialLogic.WumpusLocation
 {
     public class WumpusWorld
     {
+        public const int MaxEdges  = 3;
         private const int MaxRooms = 20;
-        private const int MaxEdges = 3;
 
-        private const int Player = 0;
         private const int Wumpus = 1;
         private const int Pit1   = 2;
         private const int Pit2   = 3;
@@ -22,12 +21,10 @@ namespace IndustrialLogic.WumpusLocation
         private readonly int[] _locationOf = new int[6];
         private readonly int[] _savedActorLocations = new int[6];
         private readonly RandomNumber _randomNumber = new RandomNumber();
-        private readonly IGameReporter _reporter;
 
         public WumpusWorld(IGameReporter reporter)
         {
-            _reporter = reporter;
-            PlayerFate = PlayerFate.Unknown;
+            Player = new Player(this, reporter) { Fate = PlayerFate.Unknown };
         }
 
         public void LoadMap()
@@ -42,11 +39,7 @@ namespace IndustrialLogic.WumpusLocation
             }
         }
 
-        public int PlayerLocation
-        {
-            get { return _locationOf[Player]; }
-            set { _locationOf[Player] = value; }
-        }
+        public Player Player { get; private set; }
 
         public int WumpusLocation
         {
@@ -59,7 +52,7 @@ namespace IndustrialLogic.WumpusLocation
             get { return _locationOf[Pit1]; }
             set { _locationOf[Pit1] = value; }
         }
-        
+
         public int Pit2Location
         {
             get { return _locationOf[Pit2]; }
@@ -78,11 +71,10 @@ namespace IndustrialLogic.WumpusLocation
             set { _locationOf[Bat2] = value; }
         }
 
-        public int[] PlayNeighbors {
-            get { return new[] { _rooms[PlayerLocation, 0], _rooms[PlayerLocation, 1], _rooms[PlayerLocation, 2] }; }
+        public void PutPlayerIn(int room)
+        {
+            Player.Location = room;
         }
-
-        public PlayerFate PlayerFate { get; set; }
 
         public int RoomAt(int room, int edge)
         {
@@ -91,12 +83,7 @@ namespace IndustrialLogic.WumpusLocation
 
         public bool WumpusIsDead()
         {
-            return DoesPlayWin();
-        }
-
-        public bool DoesPlayWin()
-        {
-            return PlayerFate == PlayerFate.Wins;
+            return Player.DoesWin();
         }
 
         public void SetupNew()
@@ -135,62 +122,24 @@ namespace IndustrialLogic.WumpusLocation
             return _randomNumber.Random1toN(MaxRooms);
         }
 
-        public int AnyPlayerNeighbor()
-        {
-            return PlayNeighbors[_randomNumber.Random0uptoN(3)];
-        }
-
         public bool IsRoomInWorld(int room)
         {
             return room >= 1 && room <= MaxRooms;
         }
 
-        public bool IsPlayerNeighborRoom(int room)
+        public int LocationOf(int actor)
         {
-            return PlayNeighbors.Any(neighbor => neighbor == room);
+            return _locationOf[actor];
         }
 
-        public bool ShootIntoRooms(params int[] targets)
+        public void PutActorInRoom(int actor, int room)
         {
-            int arrowLocation = PlayerLocation;
-            for (int target = 0; target < targets.Length; target++)
-            {
-                bool targetFound = false;
-                for (int edge = 0; edge < 3; edge++)
-                {
-                    if (RoomAt(arrowLocation, edge) == targets[target])
-                    {
-                        targetFound = true;
-                        arrowLocation = targets[target];
-                        if (arrowLocation == WumpusLocation)
-                        {
-                            _reporter.Report("You got the wumpus");
-                            PlayerFate = PlayerFate.Wins;
-                            return true;
-                        }
-                    }
-                }
+            _locationOf[actor] = room;
+        }
 
-                if (!targetFound)
-                {
-                    arrowLocation = AnyPlayerNeighbor();
-                }
-
-                if (arrowLocation == WumpusLocation)
-                {
-                    _reporter.Report("You got the wumpus");
-                    PlayerFate = PlayerFate.Wins;
-                    return true;
-                }
-                else if (arrowLocation == PlayerLocation)
-                {
-                    _reporter.Report("Ouch - arrow got you");
-                    PlayerFate = PlayerFate.Loses;
-                    return true;
-                }
-            }
-
-            return false;
+        public int AnyPlayerNeighbor()
+        {
+            return Player.Neighbors[_randomNumber.Random0uptoN(3)];
         }
     }
 }

@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="ConsoleReporter.cs" />
     <Compile Include="IGameReporter.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="PlayerFate.cs" />
     <Compile Include="RandomNumber.cs" />
     <Compile Include="Wumpus.cs" />

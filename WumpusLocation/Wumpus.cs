@@ -33,7 +33,6 @@ namespace Wumpus
         private WumpusWorld _world;
         private RandomNumber _randomNumber = new RandomNumber();
 
-        private const int player = 0;
         private const int wumpus = 1;
         private const int pit1 = 2;
         private const int pit2 = 3;
@@ -61,9 +60,9 @@ namespace Wumpus
             while (true)
             {
                 arrows = STARTING_ARROWS;
-                _world.PlayerFate = PlayerFate.Unknown;
+                _world.Player.Fate = PlayerFate.Unknown;
 
-                while (_world.PlayerFate == PlayerFate.Unknown)
+                while (_world.Player.Fate == PlayerFate.Unknown)
                 {
                     situationalAwareness();
 
@@ -79,7 +78,7 @@ namespace Wumpus
                     }
                 }
 
-                if (_world.PlayerFate == PlayerFate.Wins)
+                if (_world.Player.Fate == PlayerFate.Wins)
                 {
                     print("You win");
                 }
@@ -107,7 +106,7 @@ namespace Wumpus
             {
                 for (int edge = 0; edge < 3; edge++)
                 {
-                    if (_world.PlayNeighbors[edge] != dangerousLocations[actor])
+                    if (_world.Player.Neighbors[edge] != dangerousLocations[actor])
                         continue;
                     if (actor == wumpus)
                     {
@@ -127,13 +126,13 @@ namespace Wumpus
                 }
             }
 
-            print("You are in room " + _world.PlayerLocation);
-            print("Tunnels lead to " + _world.PlayNeighbors[0] + " " + _world.PlayNeighbors[1] + " " + _world.PlayNeighbors[2]);
+            print("You are in room " + _world.Player.Location);
+            print("Tunnels lead to " + _world.Player.Neighbors[0] + " " + _world.Player.Neighbors[1] + " " + _world.Player.Neighbors[2]);
         }
 
         private void move()
         {
-            _world.PlayerFate = PlayerFate.Unknown;
+            _world.Player.Fate = PlayerFate.Unknown;
             print("Where to?");
 
             bool validRoom = false;
@@ -145,11 +144,11 @@ namespace Wumpus
                     playerMoveToRoom = input_number();
                 } while (!_world.IsRoomInWorld(playerMoveToRoom));
 
-                if (_world.IsPlayerNeighborRoom(playerMoveToRoom))
+                if (_world.Player.IsNeighborRoom(playerMoveToRoom))
                 {
                     validRoom = true;
                 }
-                else if (_world.PlayerLocation == playerMoveToRoom)
+                else if (_world.Player.Location == playerMoveToRoom)
                 {
                     validRoom = true;
                 }
@@ -164,27 +163,27 @@ namespace Wumpus
             {
                 stillSettling = false;
 
-                _world.PlayerLocation = playerMoveToRoom;
+                _world.PutPlayerIn(playerMoveToRoom);
 
-                if (_world.PlayerLocation == _world.WumpusLocation)
+                if (_world.Player.Location == _world.WumpusLocation)
                 {
                     print("bumped wumpus");
                     moveWumpus();
-                    if (_world.PlayerFate != PlayerFate.Unknown)
+                    if (_world.Player.Fate != PlayerFate.Unknown)
                     {
                         return;
                     }
                 }
 
-                if (_world.PlayerLocation == _world.Pit1Location || _world.PlayerLocation == _world.Pit2Location)
+                if (_world.Player.Location == _world.Pit1Location || _world.Player.Location == _world.Pit2Location)
                 {
                     print("fell in pit");
-                    _world.PlayerFate = PlayerFate.Loses;
+                    _world.Player.Fate = PlayerFate.Loses;
                     return;
                 }
-                else if (_world.PlayerLocation == _world.Bat1Location || _world.PlayerLocation == _world.Bat2Location)
+                else if (_world.Player.Location == _world.Bat1Location || _world.Player.Location == _world.Bat2Location)
                 {
-                    _world.PlayerLocation = _world.AnyRoomInWorld();
+                    _world.PutPlayerIn(_world.AnyRoomInWorld());
                     stillSettling = true;
                 }
                 else
@@ -217,7 +216,7 @@ namespace Wumpus
         private void shoot()
         {
             int roomsToShoot;
-            _world.PlayerFate = PlayerFate.Unknown;
+            _world.Player.Fate = PlayerFate.Unknown;
             print("# of rooms? [1-" + MAX_TARGETS + "]");
             do
             {
@@ -237,7 +236,7 @@ namespace Wumpus
                 }
             }
 
-            bool hitted = _world.ShootIntoRooms(targets);
+            bool hitted = _world.Player.ShootIntoRooms(targets);
             if (hitted)
             {
                 return;
@@ -249,7 +248,7 @@ namespace Wumpus
             arrows = arrows - 1;
             if (arrows <= 0)
             {
-                _world.PlayerFate = PlayerFate.Loses;
+                _world.Player.Fate = PlayerFate.Loses;
             }
         }
 
@@ -273,10 +272,10 @@ namespace Wumpus
             {
                 _world.WumpusLocation = _world.RoomAt(_world.WumpusLocation, newWumpusLocation);
             }
-            if (_world.WumpusLocation == _world.PlayerLocation)
+            if (_world.WumpusLocation == _world.Player.Location)
             {
                 print("wumpus got you");
-                _world.PlayerFate = PlayerFate.Loses;
+                _world.Player.Fate = PlayerFate.Loses;
             }
         }
 
