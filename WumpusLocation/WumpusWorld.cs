@@ -50,25 +50,21 @@ namespace IndustrialLogic.WumpusLocation
         public int Pit1Location
         {
             get { return _locationOf[Pit1]; }
-            set { _locationOf[Pit1] = value; }
         }
 
         public int Pit2Location
         {
             get { return _locationOf[Pit2]; }
-            set { _locationOf[Pit2] = value; }
         }
 
         public int Bat1Location
         {
             get { return _locationOf[Bat1]; }
-            set { _locationOf[Bat2] = value; }
         }
 
         public int Bat2Location
         {
             get { return _locationOf[Bat2]; }
-            set { _locationOf[Bat2] = value; }
         }
 
         public void PutPlayerIn(int room)
