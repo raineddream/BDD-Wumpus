@@ -44,7 +44,7 @@ namespace IndustrialLogic.WumpusLocation
         [Given(@"the wumpus is in room (.*)")]
         public void Given_the_wumpus_is_in_room(int room)
         {
-            _world.PutWumpusIn(room);
+            _world.WumpusLocation = room;
         }
 
         [When(@"the player shoots into room (.*)")]

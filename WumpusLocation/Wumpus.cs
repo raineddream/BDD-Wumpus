@@ -10,7 +10,6 @@
 // ****************************************************************************
 
 using System;
-using System.Linq;
 using IndustrialLogic.WumpusLocation;
 
 namespace Wumpus
@@ -41,8 +40,6 @@ namespace Wumpus
         private int[] targets = new int[MAX_TARGETS];
 
 
-        private int[] locationOf = new int[6];
-        private int[] savedActorLocations = new int[6];
         private WumpusWorld _world;
         private RandomNumber _randomNumber = new RandomNumber();
 
@@ -69,12 +66,12 @@ namespace Wumpus
 
             _world.LoadMap();
 
-            setupNewWorld();
+            _world.SetupNew();
 
             while (true)
             {
                 arrows = STARTING_ARROWS;
-                _world.PutPlayerIn(locationOf[player]);
+                _world.PutPlayerIn(_world.locationOf[player]);
                 fate = Fate.Unknown;
 
                 while (fate == Fate.Unknown)
@@ -106,40 +103,9 @@ namespace Wumpus
                 String wantsSameSetup = input();
 
                 if (wantsSameSetup.Equals("y"))
-                    restoreWorld();
+                    _world.Restore();
                 else
-                    setupNewWorld();
-            }
-        }
-
-        private void setupNewWorld()
-        {
-            bool someActorsHaveSameRoom = true;
-            while (someActorsHaveSameRoom)
-            {
-                for (int actor = 0; actor < locationOf.ToArray().Length; actor++)
-                {
-                    locationOf[actor] = _randomNumber.Random1toN(WumpusWorld.MAX_ROOMS);
-                    savedActorLocations[actor] = locationOf[actor];
-                }
-
-                someActorsHaveSameRoom = false;
-                for (int actor1 = 0; actor1 < locationOf.ToArray().Length; actor1++)
-                {
-                    for (int actor2 = actor1 + 1; actor2 < locationOf.ToArray().Length; actor2++)
-                    {
-                        if (locationOf[actor1] == locationOf[actor2])
-                            someActorsHaveSameRoom = true;
-                    }
-                }
-            }
-        }
-
-        private void restoreWorld()
-        {
-            for (int actor = 0; actor < locationOf.ToArray().Length; actor++)
-            {
-                locationOf[actor] = savedActorLocations[actor];
+                    _world.SetupNew();
             }
         }
 
@@ -147,7 +113,7 @@ namespace Wumpus
         {
             print("");
             int[] actors = { wumpus, pit1, pit2, bats1, bats2 };
-            int[] dangerousLocations = { _world.WumpusLocation, locationOf[pit1], locationOf[pit2], locationOf[bats1], locationOf[bats2] };
+            int[] dangerousLocations = { _world.WumpusLocation, _world.locationOf[pit1], _world.locationOf[pit2], _world.locationOf[bats1], _world.locationOf[bats2] };
             for (int actor = 0; actor < actors.Length; actor++)
             {
                 for (int edge = 0; edge < 3; edge++)
@@ -195,7 +161,7 @@ namespace Wumpus
                 {
                     validRoom = true;
                 }
-                else if (_world.PlayerLocation == locationOf[player])
+                else if (_world.PlayerLocation == _world.locationOf[player])
                 {
                     validRoom = true;
                 }
@@ -210,7 +176,7 @@ namespace Wumpus
             {
                 stillSettling = false;
 
-                locationOf[player] = _world.PlayerLocation;
+                _world.locationOf[player] = _world.PlayerLocation;
 
                 if (_world.PlayerLocation == _world.WumpusLocation)
                 {
@@ -222,13 +188,13 @@ namespace Wumpus
                     }
                 }
 
-                if (_world.PlayerLocation == locationOf[pit1] || _world.PlayerLocation == locationOf[pit2])
+                if (_world.PlayerLocation == _world.locationOf[pit1] || _world.PlayerLocation == _world.locationOf[pit2])
                 {
                     print("fell in pit");
                     fate = Fate.PlayerLoses;
                     return;
                 }
-                else if (_world.PlayerLocation == locationOf[bats1] || _world.PlayerLocation == locationOf[bats2])
+                else if (_world.PlayerLocation == _world.locationOf[bats1] || _world.PlayerLocation == _world.locationOf[bats2])
                 {
                     _world.PutPlayerIn(_randomNumber.Random1toN(WumpusWorld.MAX_ROOMS));
                     stillSettling = true;
@@ -264,7 +230,7 @@ namespace Wumpus
         {
             int roomsToShoot;
             fate = Fate.Unknown;
-            int arrowLocation = locationOf[player];
+            int arrowLocation = _world.locationOf[player];
             print("# of rooms? [1-" + MAX_TARGETS + "]");
             do
             {
@@ -310,7 +276,7 @@ namespace Wumpus
                     fate = Fate.PlayerWins;
                     return;
                 }
-                else if (arrowLocation == locationOf[player])
+                else if (arrowLocation == _world.locationOf[player])
                 {
                     print("Ouch - arrow got you");
                     fate = Fate.PlayerLoses;
@@ -319,7 +285,7 @@ namespace Wumpus
             }
 
             print("missed");
-            _world.PutPlayerIn(locationOf[player]);
+            _world.PutPlayerIn(_world.locationOf[player]);
             moveWumpus();
 
             arrows = arrows - 1;
@@ -347,7 +313,7 @@ namespace Wumpus
             int newWumpusLocation = _randomNumber.Random0uptoN(4);
             if (newWumpusLocation < 3)
             {
-                _world.PutWumpusIn(_world.RoomAt(_world.WumpusLocation, newWumpusLocation));
+                _world.WumpusLocation = _world.RoomAt(_world.WumpusLocation, newWumpusLocation);
             }
             if (_world.WumpusLocation == _world.PlayerLocation)
             {
