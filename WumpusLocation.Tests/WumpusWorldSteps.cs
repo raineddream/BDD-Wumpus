@@ -11,7 +11,7 @@ namespace IndustrialLogic.WumpusLocation
         [BeforeScenario]
         public void SetupScenario()
         {
-            _world = new WumpusWorld();
+            _world = new WumpusWorld(new ConsoleReporter());
             _world.LoadMap();
         }
 
@@ -50,7 +50,7 @@ namespace IndustrialLogic.WumpusLocation
         [When(@"the player shoots into room (.*)")]
         public void When_the_player_shoots_into_room(int room)
         {
-            _world.PlayerShootsInto(room);
+            _world.ShootIntoRooms(room);
         }
 
         [Then(@"the wumpus is dead")]

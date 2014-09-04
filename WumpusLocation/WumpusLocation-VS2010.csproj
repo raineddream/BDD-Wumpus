@@ -33,7 +33,9 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fate.cs" />
+    <Compile Include="ConsoleReporter.cs" />
+    <Compile Include="IGameReporter.cs" />
+    <Compile Include="PlayerFate.cs" />
     <Compile Include="RandomNumber.cs" />
     <Compile Include="Wumpus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

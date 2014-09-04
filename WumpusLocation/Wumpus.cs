@@ -42,7 +42,7 @@ namespace Wumpus
 
         public Wumpus()
         {
-            _world = new WumpusWorld();
+            _world = new WumpusWorld(new ConsoleReporter());
         }
 
         public void doit()
@@ -237,40 +237,10 @@ namespace Wumpus
                 }
             }
 
-            int arrowLocation = _world.PlayerLocation;
-            for (int target = 0; target < targets.Length; target++)
+            bool hitted = _world.ShootIntoRooms(targets);
+            if (hitted)
             {
-                bool targetFound = false;
-                for (int edge = 0; edge < 3; edge++)
-                {
-                    if (_world.RoomAt(arrowLocation, edge) == targets[target])
-                    {
-                        targetFound = true;
-                        arrowLocation = targets[target];
-                        if (arrowLocation == _world.WumpusLocation)
-                        {
-                            print("You got the wumpus");
-                            _world.PlayerFate = PlayerFate.Wins;
-                            return;
-                        }
-                    }
-                }
-
-                if (!targetFound)
-                    arrowLocation = _world.AnyPlayerNeighbor();
-
-                if (arrowLocation == _world.WumpusLocation)
-                {
-                    print("You got the wumpus");
-                    _world.PlayerFate = PlayerFate.Wins;
-                    return;
-                }
-                else if (arrowLocation == _world.PlayerLocation)
-                {
-                    print("Ouch - arrow got you");
-                    _world.PlayerFate = PlayerFate.Loses;
-                    return;
-                }
+                return;
             }
 
             print("missed");
@@ -310,7 +280,7 @@ namespace Wumpus
             }
         }
 
-        public void print(String s)
+        public static void print(String s)
         {
             Console.Out.WriteLine(s);
         }

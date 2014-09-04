@@ -22,9 +22,11 @@ namespace IndustrialLogic.WumpusLocation
         private readonly int[] _locationOf = new int[6];
         private readonly int[] _savedActorLocations = new int[6];
         private readonly RandomNumber _randomNumber = new RandomNumber();
+        private IGameReporter _reporter;
 
-        public WumpusWorld()
+        public WumpusWorld(IGameReporter reporter)
         {
+            _reporter = reporter;
             PlayerFate = PlayerFate.Unknown;
         }
 
@@ -87,11 +89,6 @@ namespace IndustrialLogic.WumpusLocation
             return _rooms[room, edge];
         }
 
-        public void PlayerShootsInto(int room)
-        {
-            
-        }
-
         public bool WumpusIsDead()
         {
             return false;
@@ -151,6 +148,49 @@ namespace IndustrialLogic.WumpusLocation
         public bool IsPlayerNeighborRoom(int room)
         {
             return PlayNeighbors.Any(neighbor => neighbor == room);
+        }
+
+        public bool ShootIntoRooms(params int[] targets)
+        {
+            int arrowLocation = PlayerLocation;
+            for (int target = 0; target < targets.Length; target++)
+            {
+                bool targetFound = false;
+                for (int edge = 0; edge < 3; edge++)
+                {
+                    if (RoomAt(arrowLocation, edge) == targets[target])
+                    {
+                        targetFound = true;
+                        arrowLocation = targets[target];
+                        if (arrowLocation == WumpusLocation)
+                        {
+                            _reporter.report("You got the wumpus");
+                            PlayerFate = PlayerFate.Wins;
+                            return true;
+                        }
+                    }
+                }
+
+                if (!targetFound)
+                {
+                    arrowLocation = AnyPlayerNeighbor();
+                }
+
+                if (arrowLocation == WumpusLocation)
+                {
+                    _reporter.report("You got the wumpus");
+                    PlayerFate = PlayerFate.Wins;
+                    return true;
+                }
+                else if (arrowLocation == PlayerLocation)
+                {
+                    _reporter.report("Ouch - arrow got you");
+                    PlayerFate = PlayerFate.Loses;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
