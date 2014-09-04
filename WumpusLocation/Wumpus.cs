@@ -156,9 +156,7 @@ namespace Wumpus
                     playerMoveToRoom = input_number();
                 } while (!_world.IsRoomInWorld(playerMoveToRoom));
 
-                if (_world.PlayNeighbors[0] == playerMoveToRoom ||
-                    _world.PlayNeighbors[1] == playerMoveToRoom
-                    || _world.PlayNeighbors[2] == playerMoveToRoom)
+                if (_world.IsPlayerNeighborRoom(playerMoveToRoom))
                 {
                     validRoom = true;
                 }

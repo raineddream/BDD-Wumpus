@@ -140,5 +140,10 @@ namespace IndustrialLogic.WumpusLocation
         {
             return room >= 1 && room <= MaxRooms;
         }
+
+        public bool IsPlayerNeighborRoom(int room)
+        {
+            return PlayNeighbors.Any(neighbor => neighbor == room);
+        }
     }
 }
