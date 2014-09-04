@@ -231,7 +231,7 @@ namespace Wumpus
             do
             {
                 roomsToShoot = input_number();
-            } while (!(roomsToShoot >= 1 && roomsToShoot <= MAX_TARGETS));
+            } while (!_world.IsRoomInWorld(roomsToShoot));
 
             int[] targets = new int[roomsToShoot];
             for (int target = 0; target < targets.Length; target++)
