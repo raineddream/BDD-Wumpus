@@ -21,22 +21,17 @@ namespace IndustrialLogic.WumpusLocation
         private readonly int[] _locationOf = new int[6];
         private readonly int[] _savedActorLocations = new int[6];
         private readonly RandomNumber _randomNumber = new RandomNumber();
+        private readonly IGameReporter _reporter;
 
         public WumpusWorld(IGameReporter reporter)
         {
-            Player = new Player(this, reporter) { Fate = PlayerFate.Unknown };
+            _reporter = reporter;
+            Player = new Player(this, _reporter) { Fate = PlayerFate.Unknown };
         }
 
-        public void LoadMap()
+        public IGameReporter Reporter
         {
-            int index = 0;
-            for (int room = 1; room <= MaxRooms; room++)
-            {
-                for (int edge = 0; edge < MaxEdges; edge++)
-                {
-                    _rooms[room, edge] = _neighboringRooms[index++];
-                }
-            }
+            get { return _reporter; }
         }
 
         public Player Player { get; private set; }
@@ -65,6 +60,18 @@ namespace IndustrialLogic.WumpusLocation
         public int Bat2Location
         {
             get { return _locationOf[Bat2]; }
+        }
+
+        public void LoadMap()
+        {
+            int index = 0;
+            for (int room = 1; room <= MaxRooms; room++)
+            {
+                for (int edge = 0; edge < MaxEdges; edge++)
+                {
+                    _rooms[room, edge] = _neighboringRooms[index++];
+                }
+            }
         }
 
         public int[] NeighborsOf(int location)
@@ -141,6 +148,42 @@ namespace IndustrialLogic.WumpusLocation
         public int AnyPlayerNeighbor()
         {
             return Player.Neighbors[_randomNumber.Random0uptoN(3)];
+        }
+
+        public void SituationalAwareness()
+        {
+            _reporter.Report("");
+
+            Actor[] actors = { Actor.Wumpus, Actor.Pit1, Actor.Pit2, Actor.Bat1, Actor.Bat2 };
+            int[] dangerousLocations = { WumpusLocation, Pit1Location, Pit2Location, Bat1Location, Bat2Location };
+            for (int i = 0; i < actors.Length; i++)
+            {
+                Actor actor = actors[i];
+
+                for (int edge = 0; edge < 3; edge++)
+                {
+                    if (Player.Neighbors[edge] != dangerousLocations[i])
+                    {
+                        continue;
+                    }
+
+                    if (actor == Actor.Wumpus)
+                    {
+                        _reporter.Report("I smell a wumpus!");
+                    }
+                    else if (actor == Actor.Pit1 || actor == Actor.Pit2)
+                    {
+                        _reporter.Report("I feel a draft");
+                    }
+                    else if (actor == Actor.Bat1 || actor == Actor.Bat2)
+                    {
+                        _reporter.Report("Bats nearby!");
+                    }
+                }
+            }
+
+            _reporter.Report("You are in room " + Player.Location);
+            _reporter.Report("Tunnels lead to " + Player.Neighbors[0] + " " + Player.Neighbors[1] + " " + Player.Neighbors[2]);
         }
     }
 }

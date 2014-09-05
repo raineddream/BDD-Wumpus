@@ -78,6 +78,7 @@ namespace IndustrialLogic.WumpusLocation
             int[] neighbors = _world.NeighborsOf(location);
 
             _world.PutPlayerIn(neighbors[0]);
+            _world.SituationalAwareness();
         }
 
         [Then(@"you get the corresponding (.*)")]

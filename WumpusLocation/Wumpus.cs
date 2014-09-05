@@ -33,12 +33,6 @@ namespace Wumpus
         private WumpusWorld _world;
         private RandomNumber _randomNumber = new RandomNumber();
 
-        private const int wumpus = 1;
-        private const int pit1 = 2;
-        private const int pit2 = 3;
-        private const int bats1 = 4;
-        private const int bats2 = 5;
-
         public Wumpus()
         {
             _world = new WumpusWorld(new ConsoleReporter());
@@ -46,15 +40,14 @@ namespace Wumpus
 
         public void doit()
         {
-            print("Hunt the Wumpus");
+            _world.Reporter.Report("Hunt the Wumpus");
 
-            print("instructions? [y/n]");
+            _world.Reporter.Report("instructions? [y/n]");
             String wantsInstructions = input();
             if (!(wantsInstructions.Equals("n")))
                 instructions();
 
             _world.LoadMap();
-
             _world.SetupNew();
 
             while (true)
@@ -64,7 +57,7 @@ namespace Wumpus
 
                 while (_world.Player.Fate == PlayerFate.Unknown)
                 {
-                    situationalAwareness();
+                    _world.SituationalAwareness();
 
                     Action action = chooseOption();
 
@@ -80,14 +73,14 @@ namespace Wumpus
 
                 if (_world.Player.Fate == PlayerFate.Wins)
                 {
-                    print("You win");
+                    _world.Reporter.Report("You win");
                 }
                 else
                 {
-                    print("You lose");
+                    _world.Reporter.Report("You lose");
                 }
 
-                print("Same setup? [y/n]");
+                _world.Reporter.Report("Same setup? [y/n]");
                 String wantsSameSetup = input();
 
                 if (wantsSameSetup.Equals("y"))
@@ -97,44 +90,10 @@ namespace Wumpus
             }
         }
 
-        private void situationalAwareness()
-        {
-            print("");
-            Actor[] actors = { Actor.Wumpus, Actor.Pit1, Actor.Pit2, Actor.Bat1, Actor.Bat2 };
-            int[] dangerousLocations = { _world.WumpusLocation, _world.Pit1Location, _world.Pit2Location, _world.Bat1Location, _world.Bat2Location };
-            foreach (Actor actor in actors)
-            {
-                int actorIndex = (int) actor;
-                for (int edge = 0; edge < 3; edge++)
-                {
-                    if (_world.Player.Neighbors[edge] != dangerousLocations[actorIndex])
-                        continue;
-                    if (actorIndex == wumpus)
-                    {
-                        print("I smell a wumpus!");
-                        continue;
-                    }
-                    else if (actorIndex == pit1 || actorIndex == pit2)
-                    {
-                        print("I feel a draft");
-                        continue;
-                    }
-                    else if (actorIndex == bats1 || actorIndex == bats2)
-                    {
-                        print("Bats nearby!");
-                        continue;
-                    }
-                }
-            }
-
-            print("You are in room " + _world.Player.Location);
-            print("Tunnels lead to " + _world.Player.Neighbors[0] + " " + _world.Player.Neighbors[1] + " " + _world.Player.Neighbors[2]);
-        }
-
         private void move()
         {
             _world.Player.Fate = PlayerFate.Unknown;
-            print("Where to?");
+            _world.Reporter.Report("Where to?");
 
             bool validRoom = false;
             int playerMoveToRoom = -1;
@@ -155,7 +114,7 @@ namespace Wumpus
                 }
                 else
                 {
-                    print("not possible");
+                    _world.Reporter.Report("not possible");
                 }
             } while (!validRoom);
 
@@ -168,7 +127,7 @@ namespace Wumpus
 
                 if (_world.Player.Location == _world.WumpusLocation)
                 {
-                    print("bumped wumpus");
+                    _world.Reporter.Report("bumped wumpus");
                     moveWumpus();
                     if (_world.Player.Fate != PlayerFate.Unknown)
                     {
@@ -178,7 +137,7 @@ namespace Wumpus
 
                 if (_world.Player.Location == _world.Pit1Location || _world.Player.Location == _world.Pit2Location)
                 {
-                    print("fell in pit");
+                    _world.Reporter.Report("fell in pit");
                     _world.Player.Fate = PlayerFate.Loses;
                     return;
                 }
@@ -197,7 +156,7 @@ namespace Wumpus
         private Action chooseOption()
         {
             String moveType;
-            print("Shoot or move? [s/m]");
+            _world.Reporter.Report("Shoot or move? [s/m]");
             do
             {
                 moveType = input();
@@ -218,7 +177,7 @@ namespace Wumpus
         {
             int roomsToShoot;
             _world.Player.Fate = PlayerFate.Unknown;
-            print("# of rooms? [1-" + MAX_TARGETS + "]");
+            _world.Reporter.Report("# of rooms? [1-" + MAX_TARGETS + "]");
             do
             {
                 roomsToShoot = input_number();
@@ -229,11 +188,11 @@ namespace Wumpus
             {
                 while (true)
                 {
-                    print("room #");
+                    _world.Reporter.Report("room #");
                     targets[target] = input_number();
                     if (target <= 2 || targets[target] != targets[target - 2])
                         break;
-                    print("Arrows aren't that crooked - try again");
+                    _world.Reporter.Report("Arrows aren't that crooked - try again");
                 }
             }
 
@@ -243,7 +202,7 @@ namespace Wumpus
                 return;
             }
 
-            print("missed");
+            _world.Reporter.Report("missed");
             moveWumpus();
 
             arrows = arrows - 1;
@@ -255,15 +214,13 @@ namespace Wumpus
 
         private void instructions()
         {
-            print("You're an explorer in a set of caves, trying to kill the deadly wumpus before it kills you.");
-            print("There are 20 rooms, and each connects to 3 others as corners of a dodecahedron.");
-            print(
-                "You get 5 arrows that can shoot across multiple rooms. If you shoot the wumpus, you win; if you run out of arrows, you die.");
-            print(
-                "If you enter the room with the wumpus or shoot an arrow, the wumpus randomly moves to a new room or stays in the old one.");
-            print("If you're in the same room as the wumpus after its move, it eats you (and you lose).");
-            print("There are other hazards: (a) bottomless pits - kill you; (b) bats - carry you to a random room.");
-            print("Good luck!");
+            _world.Reporter.Report("You're an explorer in a set of caves, trying to kill the deadly wumpus before it kills you.");
+            _world.Reporter.Report("There are 20 rooms, and each connects to 3 others as corners of a dodecahedron.");
+            _world.Reporter.Report("You get 5 arrows that can shoot across multiple rooms. If you shoot the wumpus, you win; if you run out of arrows, you die.");
+            _world.Reporter.Report("If you enter the room with the wumpus or shoot an arrow, the wumpus randomly moves to a new room or stays in the old one.");
+            _world.Reporter.Report("If you're in the same room as the wumpus after its move, it eats you (and you lose).");
+            _world.Reporter.Report("There are other hazards: (a) bottomless pits - kill you; (b) bats - carry you to a random room.");
+            _world.Reporter.Report("Good luck!");
         }
 
         public void moveWumpus()
@@ -275,14 +232,9 @@ namespace Wumpus
             }
             if (_world.WumpusLocation == _world.Player.Location)
             {
-                print("wumpus got you");
+                _world.Reporter.Report("wumpus got you");
                 _world.Player.Fate = PlayerFate.Loses;
             }
-        }
-
-        public static void print(String s)
-        {
-            Console.Out.WriteLine(s);
         }
 
         public String input()
