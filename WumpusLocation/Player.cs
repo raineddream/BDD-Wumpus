@@ -29,7 +29,7 @@ namespace IndustrialLogic.WumpusLocation
 
         public int[] Neighbors
         {
-            get { return new[] {_inWorld.RoomAt(Location, 0), _inWorld.RoomAt(Location, 1), _inWorld.RoomAt(Location, 2)}; }
+            get { return _inWorld.NeighborsOf(Location); }
         }
 
         public PlayerFate Fate { get; set; }

@@ -33,6 +33,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actor.cs" />
     <Compile Include="ConsoleReporter.cs" />
     <Compile Include="IGameReporter.cs" />
     <Compile Include="Player.cs" />

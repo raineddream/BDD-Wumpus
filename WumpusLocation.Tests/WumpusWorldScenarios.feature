@@ -34,10 +34,24 @@ Scenario Outline: Describe the initial layout of the Wumpus World
 		|  19  | 11 | 18 | 20 |
 		|  20  | 13 | 16 | 19 | 
 
+
 Scenario: The player wins
+
   Given the player is in room 1
     And the wumpus is in room 2 
    When the player shoots into room 2
    Then the wumpus is dead
     And the player wins
 	And game prompts "You got the wumpus"
+
+
+Scenario Outline: Messages for nearby hazards
+
+  Given a room with an adjacent <hazard> 
+  Then  you get the corresponding <message>
+
+Examples:
+    | hazard		 | message           |
+    | wumpus         | I smell a wumpus! |
+    | bats           | Bats nearby!      |
+    | bottomless pit | I feel a draft    |

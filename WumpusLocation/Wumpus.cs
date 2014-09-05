@@ -100,25 +100,26 @@ namespace Wumpus
         private void situationalAwareness()
         {
             print("");
-            int[] actors = { wumpus, pit1, pit2, bats1, bats2 };
+            Actor[] actors = { Actor.Wumpus, Actor.Pit1, Actor.Pit2, Actor.Bat1, Actor.Bat2 };
             int[] dangerousLocations = { _world.WumpusLocation, _world.Pit1Location, _world.Pit2Location, _world.Bat1Location, _world.Bat2Location };
-            for (int actor = 0; actor < actors.Length; actor++)
+            foreach (Actor actor in actors)
             {
+                int actorIndex = (int) actor;
                 for (int edge = 0; edge < 3; edge++)
                 {
-                    if (_world.Player.Neighbors[edge] != dangerousLocations[actor])
+                    if (_world.Player.Neighbors[edge] != dangerousLocations[actorIndex])
                         continue;
-                    if (actor == wumpus)
+                    if (actorIndex == wumpus)
                     {
                         print("I smell a wumpus!");
                         continue;
                     }
-                    else if (actor == pit1 || actor == pit2)
+                    else if (actorIndex == pit1 || actorIndex == pit2)
                     {
                         print("I feel a draft");
                         continue;
                     }
-                    else if (actor == bats1 || actor == bats2)
+                    else if (actorIndex == bats1 || actorIndex == bats2)
                     {
                         print("Bats nearby!");
                         continue;

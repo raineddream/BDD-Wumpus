@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using System;
+using System.ComponentModel;
+using Moq;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -69,5 +71,47 @@ namespace IndustrialLogic.WumpusLocation
             _reporterMock.Verify(x => x.Report(message));
         }
 
+        [Given(@"a room with an adjacent (.*)")]
+        public void Given_a_room_with_an_adjacent(string hazard)
+        {
+            int location = GetLocationOfActor(ParseToActor(hazard));
+            int[] neighbors = _world.NeighborsOf(location);
+
+            _world.PutPlayerIn(neighbors[0]);
+        }
+
+        [Then(@"you get the corresponding (.*)")]
+        public void Then_you_get_the_corresponding(string message)
+        {
+            _reporterMock.Verify(x => x.Report(message));
+        }
+
+        private int GetLocationOfActor(Actor actor)
+        {
+            switch (actor)
+            {
+                case Actor.Wumpus:
+                    return _world.WumpusLocation;
+                case Actor.Bat1:
+                    return _world.Bat1Location;
+                case Actor.Pit1:
+                    return _world.Pit1Location;
+            }
+            throw new ArgumentException();
+        }
+
+        private Actor ParseToActor(string actorName)
+        {
+            switch (actorName)
+            {
+                case "wumpus":
+                    return Actor.Wumpus;
+                case "bats":
+                    return Actor.Bat1;
+                case "bottomless pit":
+                    return Actor.Pit1;
+            }
+            throw new ArgumentException();
+        }
     }
 }

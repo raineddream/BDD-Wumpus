@@ -67,6 +67,11 @@ namespace IndustrialLogic.WumpusLocation
             get { return _locationOf[Bat2]; }
         }
 
+        public int[] NeighborsOf(int location)
+        {
+            return new[] { RoomAt(location, 0), RoomAt(location, 1), RoomAt(location, 2) };
+        }
+
         public void PutPlayerIn(int room)
         {
             Player.Location = room;

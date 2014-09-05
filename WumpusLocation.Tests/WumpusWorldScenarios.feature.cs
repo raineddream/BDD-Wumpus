@@ -115,22 +115,42 @@ this.FeatureBackground();
         public virtual void ThePlayerWins()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The player wins", ((string[])(null)));
-#line 37
+#line 38
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 38
-  testRunner.Given("the player is in room 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 39
-    testRunner.And("the wumpus is in room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 40
-   testRunner.When("the player shoots into room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.Given("the player is in room 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 41
-   testRunner.Then("the wumpus is dead", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+    testRunner.And("the wumpus is in room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 42
-    testRunner.And("the player wins", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.When("the player shoots into room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 43
+   testRunner.Then("the wumpus is dead", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 44
+    testRunner.And("the player wins", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 45
  testRunner.And("game prompts \"You got the wumpus\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Messages for nearby hazards")]
+        [NUnit.Framework.TestCaseAttribute("wumpus", "I smell a wumpus!", null)]
+        [NUnit.Framework.TestCaseAttribute("bats", "Bats nearby!", null)]
+        [NUnit.Framework.TestCaseAttribute("bottomless pit", "I feel a draft", null)]
+        public virtual void MessagesForNearbyHazards(string hazard, string message, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Messages for nearby hazards", exampleTags);
+#line 48
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 50
+  testRunner.Given(string.Format("a room with an adjacent {0}", hazard), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 51
+  testRunner.Then(string.Format("you get the corresponding {0}", message), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
