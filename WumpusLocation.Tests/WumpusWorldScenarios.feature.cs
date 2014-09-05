@@ -65,6 +65,14 @@ namespace IndustrialLogic.WumpusLocation
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 6
+#line 7
+ testRunner.Given("a Wumpus World", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Describe the initial layout of the Wumpus World")]
         [NUnit.Framework.TestCaseAttribute("1", "2", "5", "8", null)]
@@ -90,13 +98,13 @@ namespace IndustrialLogic.WumpusLocation
         public virtual void DescribeTheInitialLayoutOfTheWumpusWorld(string room, string a, string b, string c, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Describe the initial layout of the Wumpus World", exampleTags);
-#line 6
-this.ScenarioSetup(scenarioInfo);
-#line 8
- testRunner.Given("a Wumpus World", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 11
   testRunner.When(string.Format("the player is in room {0}", room), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 10
+#line 12
   testRunner.Then(string.Format("his neighbors are {0}, {1}, and {2}", a, b, c), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -107,19 +115,21 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ThePlayerWins()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The player wins", ((string[])(null)));
-#line 35
-this.ScenarioSetup(scenarioInfo);
-#line 36
-  testRunner.Given("the player is in room 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 37
-    testRunner.And("the wumpus is in room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
 #line 38
-   testRunner.When("the player shoots into room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.Given("the player is in room 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 39
-   testRunner.Then("the wumpus is dead", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+    testRunner.And("the wumpus is in room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 40
-    testRunner.And("the player wins", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.When("the player shoots into room 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 41
+   testRunner.Then("the wumpus is dead", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 42
+    testRunner.And("the player wins", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 43
  testRunner.And("game prompts \"You got the wumpus\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

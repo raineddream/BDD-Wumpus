@@ -14,13 +14,13 @@ namespace IndustrialLogic.WumpusLocation
         public void SetupScenario()
         {
             _reporterMock = new Mock<IGameReporter>();
-            _world = new WumpusWorld(_reporterMock.Object);
-            _world.LoadMap();
         }
 
         [Given(@"a Wumpus World")]
         public void Given_a_wumpus_world()
         {
+            _world = new WumpusWorld(_reporterMock.Object);
+            _world.LoadMap();
         }
 
         [Then(@"his neighbors are (.*), (.*), and (.*)")]

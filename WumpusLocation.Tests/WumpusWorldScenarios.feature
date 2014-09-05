@@ -2,10 +2,12 @@
 	In order to enjoy playing the wumpus game
 	As a player
 	I want to be able to interact with the Wumpus World according to the standard rules
+
+Background: 
+	Given a Wumpus World
 	
 Scenario Outline: Describe the initial layout of the Wumpus World
 
-	Given a Wumpus World
 	 When the player is in room <room>
 	 Then his neighbors are <A>, <B>, and <C>
 
