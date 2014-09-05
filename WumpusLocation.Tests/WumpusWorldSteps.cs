@@ -23,14 +23,8 @@ namespace IndustrialLogic.WumpusLocation
         {
         }
 
-        [When(@"I am in a (.*)")]
-        public void When_I_am_in_a(int room)
-        {
-            _world.PutPlayerIn(room);
-        }
-
-        [Then(@"my neighbors are (.*), (.*), and (.*)")]
-        public void Then_my_neighbors_are_and(int neighbour1, int neighbour2, int neighbour3)
+        [Then(@"his neighbors are (.*), (.*), and (.*)")]
+        public void Then_his_neighbors_are_and(int neighbour1, int neighbour2, int neighbour3)
         {
             Assert.That(_world.Player.Neighbors.Length, Is.EqualTo(3));
             Assert.That(_world.Player.Neighbors, Contains.Item(neighbour1));
@@ -39,6 +33,7 @@ namespace IndustrialLogic.WumpusLocation
         }
 
         [Given(@"the player is in room (.*)")]
+        [When( @"the player is in room (.*)")]
         public void Given_the_player_is_in_room(int room)
         {
             _world.PutPlayerIn(room);

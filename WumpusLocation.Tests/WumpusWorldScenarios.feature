@@ -6,8 +6,8 @@
 Scenario Outline: Describe the initial layout of the Wumpus World
 
 	Given a Wumpus World
-	 When I am in a <room>
-	 Then my neighbors are <A>, <B>, and <C>
+	 When the player is in room <room>
+	 Then his neighbors are <A>, <B>, and <C>
 
 	Examples:
 		| room |  A |  B |  C |

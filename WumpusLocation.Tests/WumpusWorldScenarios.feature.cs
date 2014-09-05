@@ -95,9 +95,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.Given("a Wumpus World", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
-  testRunner.When(string.Format("I am in a {0}", room), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.When(string.Format("the player is in room {0}", room), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
-  testRunner.Then(string.Format("my neighbors are {0}, {1}, and {2}", a, b, c), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then(string.Format("his neighbors are {0}, {1}, and {2}", a, b, c), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
